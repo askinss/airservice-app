@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import requests
 from flask_jwt import JWT, jwt_required
 
@@ -46,7 +46,8 @@ jwt = JWT(app, verify, identity)
 @jwt_required()
 def airports():
     try:
-        airports_info = requests.get("http://0.0.0.0:8080/airports", timeout=5).json()
+        val = request.args['full']
+        airports_info = requests.get("http://0.0.0.0:8082/airports?full={}".format(val), timeout=5).json()
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return ValueError
@@ -57,26 +58,37 @@ def airports():
     return dict(zip(keys, airports_info))
 
 
-@app.route('/airports/<query>',  methods=['GET'])
+@app.route('/airports/<id>',  methods=['GET'])
 #Ensure no unauthorised access to URL
 @jwt_required()
-def airports_by_country_code(query):
+def airports_by_id(id):
     try:
-        aport = requests.get("http://0.0.0.0:8080/airports"/{}.format(query), timeout=5).json()
+        aport = requests.get("http://0.0.0.0:8082/airports"/{}.format(id), timeout=5)
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return None
 
-    return {
-            "id": aport[0]["id"],
-            "runways": aport[1]["runways"]
-     }
+    return aport.content
+
+@app.route('/search/<qry>',  methods=['GET'])
+#Ensure no unauthorised access to URL
+@jwt_required()
+def search_by_qry(qry):
+    try:
+        aport = requests.get("http://0.0.0.0:8082/search"/{}.format(qry), timeout=5)
+        # print(airports_info)
+    except (requests.RequestException, ValueError):
+        return None
+
+    return aport.content
+
+
 
 @app.route('/health/live',  methods=['GET'])
 #Check if service is available
 def healthlive():
     try:
-        stat = requests.get("http://0.0.0.0:8080/health/live", timeout=5)
+        stat = requests.get("http://0.0.0.0:8082/health/live", timeout=5)
         
 
     except Exception as e:
@@ -90,7 +102,7 @@ def healthlive():
 # check the ready status of webservice
 def healthready():
     try:
-        stat = requests.get("http://0.0.0.0:8080/health/ready", timeout=5)
+        stat = requests.get("http://0.0.0.0:8082/health/ready", timeout=5)
         
     except Exception as e:
         return e
