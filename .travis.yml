@@ -12,6 +12,6 @@ before_install:
 
 deploy:
   provider: script
-  script: bash deploy_dockerhub
+  script: bash deploy_dockerhub.sh
   on:
     branch: v1.1.2
