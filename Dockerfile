@@ -13,7 +13,7 @@ ENV PYTHONUNBUFFERED 1
 
 # install dependencies
 RUN pip install --upgrade pip
-COPY ./requirements.txt /airappv/requirements.txt
+COPY ./requirements.txt /airappv1/requirements.txt
 RUN pip install -r requirements.txt
 
 # copy project
