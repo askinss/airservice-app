@@ -62,14 +62,13 @@ def airports():
 @jwt_required()
 def airports_by_country_code(query):
     try:
-        aport = requests.get("http://0.0.0.0:8080/airports"/{}.format(query), timeout=5).json()
+        aport = requests.get("http://0.0.0.0:8080/airports/{}".format(query), timeout=5).json()
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return None
 
     return {
-            "id": aport[0]["id"],
-            "runways": aport[1]["runways"]
+            "aport": aport            
      }
 
 @app.route('/health/live',  methods=['GET'])
@@ -82,9 +81,7 @@ def healthlive():
     except Exception as e:
         return e
 
-    return {
-        stat.status_code
-    }
+    return stat.content
 
 @app.route('/health/ready',  methods=['GET'])
 # check the ready status of webservice
@@ -95,9 +92,7 @@ def healthready():
     except Exception as e:
         return e
 
-    return {
-        stat.status_code
-    }
+    return stat.content
 
 
 if __name__ == '__main__':
