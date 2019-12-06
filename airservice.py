@@ -63,7 +63,7 @@ def airports():
 @jwt_required()
 def airports_by_id(id):
     try:
-        aport = requests.get("http://0.0.0.0:8082/airports"/{}.format(id), timeout=5)
+        aport = requests.get("http://0.0.0.0:8082/airports/{}".format(id), timeout=5)
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return None
@@ -75,12 +75,14 @@ def airports_by_id(id):
 @jwt_required()
 def search_by_qry(qry):
     try:
-        aport = requests.get("http://0.0.0.0:8082/search"/{}.format(qry), timeout=5)
+        aport = requests.get("http://0.0.0.0:8082/search/{}".format(qry), timeout=5)
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return None
 
-    return aport.content
+    return {
+        "aport":  aport
+    }
 
 
 
@@ -94,9 +96,8 @@ def healthlive():
     except Exception as e:
         return e
 
-    return {
-        stat.status_code
-    }
+    return stat.content
+
 
 @app.route('/health/ready',  methods=['GET'])
 # check the ready status of webservice
@@ -107,9 +108,7 @@ def healthready():
     except Exception as e:
         return e
 
-    return {
-        stat.status_code
-    }
+    return stat.content
 
 
 if __name__ == '__main__':
