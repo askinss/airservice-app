@@ -63,22 +63,23 @@ def airports():
 @jwt_required()
 def airports_by_id(id):
     try:
-        aport = requests.get("http://0.0.0.0:8082/airports/{}".format(id), timeout=5)
+        aport = requests.get("http://0.0.0.0:8082/airports/{}".format(id), timeout=5).json()
         # print(airports_info)
-    except (requests.RequestException, ValueError):
-        return None
+    except Exception as e:
+        return e
 
-    return aport.content
-
+    return {
+        "aport": aport
+    }
 @app.route('/search/<qry>',  methods=['GET'])
 #Ensure no unauthorised access to URL
 @jwt_required()
 def search_by_qry(qry):
     try:
-        aport = requests.get("http://0.0.0.0:8082/search/{}".format(qry), timeout=5)
+        aport = requests.get("http://0.0.0.0:8082/search/{}".format(qry), timeout=5).json()
         # print(airports_info)
-    except (requests.RequestException, ValueError):
-        return None
+    except Exception as e:
+        return e
 
     return {
         "aport":  aport
