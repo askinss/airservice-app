@@ -16,5 +16,5 @@ deploy:
   on:
     branch: master
 
-script:
-  - nose2
+#script:
+#  - nose2
