@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: .
+    labels:
+        - "traefik.enable=true"
+        - "traefik.backend=airservicev1-app"
+        - "traefik.backend.healthcheck.path=/health"
+        - "traefik.backend.healthcheck.interval=1s"
+        - "traefik.frontend.rule=Host:localhost"
+        - "traefik.port=5002"
+    networks:
+        - traefik
+    ports:
+      - "5002:5002"
+networks:
+    traefik:
+        external:
+            name: traefik_webgateway
