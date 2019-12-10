@@ -2,7 +2,6 @@ from flask import Flask
 import requests
 from flask_jwt import JWT, jwt_required
 
-
 # Credentials for authorised user to generate a token for authorised API call
 USER_DATA = {
     "lunatech": "devops"

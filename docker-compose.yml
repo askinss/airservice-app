@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  app:
     build: .
     labels:
         - "traefik.enable=true"
@@ -11,8 +11,7 @@ services:
         - "traefik.port=5000"
     networks:
         - traefik
-    ports:
-      - "5000:5000"
+    
 networks:
     traefik:
         external:
