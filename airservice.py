@@ -12,7 +12,7 @@ URL = "http://0.0.0.0:8080/"
 app = Flask(__name__)
 # Secret key for token
 app.config['SECRET_KEY'] = 'luna-secret'
-
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3000000000
 #Configure User to generate token
 class User(object):
     '''
