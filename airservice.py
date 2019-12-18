@@ -45,7 +45,7 @@ jwt = JWT(app, verify, identity)
 @jwt_required()
 def airports():
     try:
-        airports_info = requests.get("http://172.18.0.3:8082/airports", timeout=5).json()
+        airports_info = requests.get("http://172.18.0.3:8083/airports", timeout=5).json()
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return ValueError
@@ -61,7 +61,7 @@ def airports():
 @jwt_required()
 def airports_by_country_code(query):
     try:
-        aport = requests.get("http://172.18.0.3:8082/airports/{}".format(query), timeout=5).json()
+        aport = requests.get("http://172.18.0.3:8083/airports/{}".format(query), timeout=5).json()
         # print(airports_info)
     except (requests.RequestException, ValueError):
         return None
@@ -74,7 +74,7 @@ def airports_by_country_code(query):
 #Check if service is available
 def healthlive():
     try:
-        stat = requests.get("http://172.18.0.3:8082/health/live", timeout=5)
+        stat = requests.get("http://172.18.0.3:8083/health/live", timeout=5)
         
 
     except Exception as e:
@@ -86,7 +86,7 @@ def healthlive():
 # check the ready status of webservice
 def healthready():
     try:
-        stat = requests.get("http://172.18.0.3:8082/health/ready", timeout=5)
+        stat = requests.get("http://172.18.0.3:8083/health/ready", timeout=5)
         
     except Exception as e:
         return e
